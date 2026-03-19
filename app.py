@@ -7,7 +7,8 @@ Comando: streamlit run integracoes/painel_marketing.py
 import streamlit as st
 import json
 import os
-from datetime import date, datetime
+import urllib.request
+from datetime import date, datetime, timedelta
 
 # ── Config ─────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -68,6 +69,98 @@ def load_data():
 def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+# ── GestãoClick API ─────────────────────────────────────────────────────────
+GC_BASE = "https://api.gestaoclick.com"
+
+def _gc_get(endpoint, access, secret):
+    req = urllib.request.Request(
+        GC_BASE + endpoint,
+        headers={"access-token": access, "secret-access-token": secret, "Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req, timeout=20) as r:
+        return json.loads(r.read())
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def buscar_clientes_reativacao(access, secret):
+    hoje = datetime.today()
+    data_corte = (hoje - timedelta(days=120)).strftime("%Y-%m-%d")
+    orfaos = ["murilo", "swyanne", "liandro"]
+
+    # 1) Coletar vendas dos últimos 120 dias
+    ultima_compra = {}
+    try:
+        meta = _gc_get(f"/vendas?pagina=1&limite=1&data_inicio={data_corte}", access, secret)
+        total_pag = meta["meta"]["total_paginas"]
+        for pag in range(1, min(total_pag + 1, 30)):
+            resp = _gc_get(f"/vendas?pagina={pag}&limite=100&data_inicio={data_corte}", access, secret)
+            for v in resp["data"]:
+                cid = v["cliente_id"]
+                sit = v.get("nome_situacao", "")
+                if sit in ["Concretizada", "Confirmado", "Faturado", "Concluído"]:
+                    if cid not in ultima_compra or v["data"] > ultima_compra[cid]["data"]:
+                        ultima_compra[cid] = {"data": v["data"], "valor": float(v.get("valor_total") or 0)}
+    except Exception:
+        pass
+
+    # 2) Coletar todos os clientes
+    clientes = {}
+    try:
+        meta2 = _gc_get("/clientes?pagina=1&limite=1", access, secret)
+        total_pag2 = meta2["meta"]["total_paginas"]
+        for pag in range(1, total_pag2 + 1):
+            resp = _gc_get(f"/clientes?pagina={pag}&limite=100", access, secret)
+            for c in resp["data"]:
+                end = c.get("enderecos", [{}])
+                end_data = end[0].get("endereco", {}) if end else {}
+                clientes[c["id"]] = {
+                    "nome": c["nome"],
+                    "vendedor": c.get("nome_vendedor", "").lower().strip(),
+                    "cidade": end_data.get("nome_cidade", ""),
+                    "estado": end_data.get("estado", ""),
+                }
+    except Exception:
+        return []
+
+    # 3) Calcular dias sem comprar e montar lista da Fabiana
+    lista = []
+    for cid, cdata in clientes.items():
+        vend = cdata["vendedor"]
+        eh_fabiana = "fabiana" in vend
+        eh_orfao   = any(o in vend for o in orfaos)
+        eh_ademir  = "ademir" in vend
+
+        uc = ultima_compra.get(cid)
+        if uc:
+            dias = (hoje - datetime.strptime(uc["data"], "%Y-%m-%d")).days
+            valor_ult = uc["valor"]
+        else:
+            dias = 999
+            valor_ult = 0
+
+        if (eh_fabiana or eh_orfao) and dias >= 45:
+            origem = "Fabiana" if eh_fabiana else "Órfão"
+        elif eh_ademir and dias >= 120:
+            origem = "Ademir→Fabiana"
+        else:
+            continue
+
+        prioridade = "🟡 Em risco" if dias < 120 else "🔴 Inativo"
+        cidade_fmt = f"{cdata['cidade']}/{cdata['estado']}" if cdata['cidade'] else "—"
+
+        lista.append({
+            "id": cid,
+            "cliente": cdata["nome"],
+            "cidade": cidade_fmt,
+            "ultimo": f"{dias} dias" if dias < 900 else "120+ dias",
+            "historico": valor_ult,
+            "prioridade": prioridade,
+            "origem": origem,
+            "dias": dias,
+        })
+
+    lista.sort(key=lambda x: (0 if "risco" in x["prioridade"] else 1, -x["historico"]))
+    return lista
 
 data = load_data()
 
@@ -699,39 +792,77 @@ with tab4:
     <div class='card card-yellow'>
     💬 <b>Template de mensagem:</b><br>
     <i>"Oi [NOME]! Tudo bem? Aqui é [SEU NOME] da MR4 😊 Faz um tempinho que a gente não se fala.
-    Chegaram produtos novos que costumam girar bem em lojas como a sua — [PRODUTO]. Posso te mandar os detalhes e o preço?"</i>
+    Chegaram produtos novos que costumam girar bem em lojas como a sua. Posso te mandar os detalhes e o preço?"</i>
     </div>
     """, unsafe_allow_html=True)
 
+    # ── Buscar dados ao vivo do GestãoClick ─────────────────────────────────
+    gc_access = st.secrets.get("GESTAOCLICK_ACCESS_TOKEN","")
+    gc_secret = st.secrets.get("GESTAOCLICK_SECRET_TOKEN","")
+
+    col_info, col_btn = st.columns([4,1])
+    with col_btn:
+        if st.button("🔄 Atualizar lista", use_container_width=True):
+            st.cache_data.clear()
+            st.rerun()
+
+    lista_viva = []
+    if gc_access and gc_secret:
+        with st.spinner("Buscando clientes no GestãoClick..."):
+            lista_viva = buscar_clientes_reativacao(gc_access, gc_secret)
+        with col_info:
+            st.caption(f"✅ Dados ao vivo do GestãoClick · {len(lista_viva)} clientes · atualiza a cada 1h")
+    else:
+        lista_viva = REATIVACAO_BASE
+        with col_info:
+            st.caption("⚠️ Usando lista local (configure secrets para dados ao vivo)")
+
+    # Filtros
+    f1, f2, f3 = st.columns(3)
+    filtro_prior = f1.selectbox("Filtrar prioridade", ["Todas","🟡 Em risco","🔴 Inativo"])
+    filtro_orig  = f2.selectbox("Filtrar origem", ["Todas","Fabiana","Órfão","Ademir→Fabiana"])
+    filtro_status= f3.selectbox("Filtrar status", ["Todos","⬜ Pendente","🟡 Contatado","🟢 Respondeu","✅ Comprou","❌ Sem retorno"])
+
+    lista_filtrada = lista_viva
+    if filtro_prior != "Todas":
+        lista_filtrada = [c for c in lista_filtrada if c.get("prioridade","") == filtro_prior]
+    if filtro_orig != "Todas":
+        lista_filtrada = [c for c in lista_filtrada if c.get("origem","") == filtro_orig]
+    if filtro_status != "Todos":
+        lista_filtrada = [c for c in lista_filtrada if data["reativacao"].get(str(c["id"]),{}).get("status","⬜ Pendente") == filtro_status]
+
     # Métricas reativação
-    total_r = len(REATIVACAO_BASE)
-    contat_r = sum(1 for c in REATIVACAO_BASE if data["reativacao"].get(c["id"],{}).get("status","⬜ Pendente") not in ["⬜ Pendente"])
-    comprou_r = sum(1 for c in REATIVACAO_BASE if "✅ Comprou" in data["reativacao"].get(c["id"],{}).get("status",""))
-    rc1,rc2,rc3 = st.columns(3)
-    for col,val,lbl in [(rc1,total_r,"Total na base"),(rc2,contat_r,"Contatados"),(rc3,comprou_r,"Compraram")]:
+    total_r  = len(lista_viva)
+    risco_r  = sum(1 for c in lista_viva if "risco" in c.get("prioridade",""))
+    contat_r = sum(1 for c in lista_viva if data["reativacao"].get(str(c["id"]),{}).get("status","⬜ Pendente") not in ["⬜ Pendente"])
+    comprou_r= sum(1 for c in lista_viva if "✅ Comprou" in data["reativacao"].get(str(c["id"]),{}).get("status",""))
+    rc1,rc2,rc3,rc4 = st.columns(4)
+    for col,val,lbl in [(rc1,total_r,"Total na base"),(rc2,risco_r,"⚠️ Em risco"),(rc3,contat_r,"Contatados"),(rc4,comprou_r,"Compraram")]:
         col.markdown(f"<div class='metric-box'><div class='metric-val'>{val}</div><div class='metric-lbl'>{lbl}</div></div>", unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown(f"<br><b>{len(lista_filtrada)} clientes exibidos</b>", unsafe_allow_html=True)
 
-    for item in REATIVACAO_BASE:
-        if item["id"] not in data["reativacao"]:
-            data["reativacao"][item["id"]] = {"status":"⬜ Pendente","nota":""}
+    for item in lista_filtrada:
+        cid = str(item["id"])
+        if cid not in data["reativacao"]:
+            data["reativacao"][cid] = {"status":"⬜ Pendente","nota":""}
 
-        r_data = data["reativacao"][item["id"]]
+        r_data = data["reativacao"][cid]
         current_status = r_data.get("status","⬜ Pendente")
         cor = "card-green" if "✅" in current_status else ("card-yellow" if "🟡" in current_status or "🟢" in current_status else "card-red" if "❌" in current_status else "")
+        hist = item.get("historico", 0)
+        hist_fmt = f"R$ {hist:,.0f}".replace(",",".")
 
-        hist_fmt = f"R$ {item.get('historico',0):,.0f}".replace(",",".")
-        with st.expander(f"{item['prioridade']} {item['cliente']} — {item['cidade']} | Histórico: {hist_fmt} · {current_status}"):
+        with st.expander(f"{item.get('prioridade','🔴')} {item['cliente']} — {item['cidade']} | {hist_fmt} · {current_status}"):
             rc1, rc2 = st.columns([2,1])
             with rc1:
-                st.markdown(f"**Último contato:** {item['ultimo']}")
+                st.markdown(f"**Sem comprar:** {item['ultimo']}")
                 st.markdown(f"**Histórico de compras:** {hist_fmt}")
                 st.markdown(f"**Carteira:** {item.get('origem','—')}")
                 novo_status = st.selectbox("Status do contato", STATUS_REATIV,
-                    index=STATUS_REATIV.index(current_status),
-                    key=f"reat_sel_{item['id']}")
-                nota = st.text_input("Observação", value=r_data.get("nota",""), key=f"reat_nota_{item['id']}")
+                    index=STATUS_REATIV.index(current_status) if current_status in STATUS_REATIV else 0,
+                    key=f"reat_sel_{cid}")
+                nota = st.text_input("Observação / próximo passo", value=r_data.get("nota",""), key=f"reat_nota_{cid}")
             with rc2:
                 st.markdown(f"""
                 <div class='card {cor}' style='margin-top:20px'>
@@ -740,27 +871,10 @@ with tab4:
                   <span style='font-size:11px;color:#94a3b8'>{item.get('origem','—')} · {current_status}</span>
                 </div>
                 """, unsafe_allow_html=True)
-            if st.button("Salvar", key=f"reat_save_{item['id']}"):
-                data["reativacao"][item["id"]] = {"status": novo_status, "nota": nota}
+            if st.button("💾 Salvar", key=f"reat_save_{cid}"):
+                data["reativacao"][cid] = {"status": novo_status, "nota": nota}
                 save_data(data)
                 st.success("Salvo!")
-                st.rerun()
-
-    # Adicionar novo cliente
-    st.divider()
-    st.markdown("#### ➕ Adicionar cliente para reativar")
-    with st.form("add_cliente"):
-        nc1, nc2, nc3 = st.columns(3)
-        novo_nome    = nc1.text_input("Nome do cliente")
-        nova_cidade  = nc2.text_input("Cidade/Estado")
-        novo_produto = nc3.text_input("Produto histórico")
-        if st.form_submit_button("Adicionar"):
-            if novo_nome:
-                new_id = f"r{len(REATIVACAO_BASE)+100:03d}"
-                REATIVACAO_BASE.append({"id":new_id,"cliente":novo_nome,"cidade":nova_cidade,"ultimo":"Novo","produto":novo_produto})
-                data["reativacao"][new_id] = {"status":"⬜ Pendente","nota":""}
-                save_data(data)
-                st.success(f"{novo_nome} adicionado!")
                 st.rerun()
 
 # ═══════════════════════════════════════════════════
