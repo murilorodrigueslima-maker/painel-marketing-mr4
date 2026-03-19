@@ -90,9 +90,15 @@ def buscar_clientes_reativacao(access, secret):
     # 1) Coletar vendas dos últimos 120 dias
     ultima_compra = {}
     try:
-        meta = _gc_get(f"/vendas?pagina=1&limite=1&data_inicio={data_corte}", access, secret)
+        meta = _gc_get(f"/vendas?pagina=1&limite=100&data_inicio={data_corte}", access, secret)
         total_pag = meta["meta"]["total_paginas"]
-        for pag in range(1, min(total_pag + 1, 30)):
+        for v in meta["data"]:
+            cid = v["cliente_id"]
+            sit = v.get("nome_situacao", "")
+            if sit in ["Concretizada", "Confirmado", "Faturado", "Concluído"]:
+                if cid not in ultima_compra or v["data"] > ultima_compra[cid]["data"]:
+                    ultima_compra[cid] = {"data": v["data"], "valor": float(v.get("valor_total") or 0)}
+        for pag in range(2, min(total_pag + 1, 25)):
             resp = _gc_get(f"/vendas?pagina={pag}&limite=100&data_inicio={data_corte}", access, secret)
             for v in resp["data"]:
                 cid = v["cliente_id"]
@@ -103,12 +109,21 @@ def buscar_clientes_reativacao(access, secret):
     except Exception:
         pass
 
-    # 2) Coletar todos os clientes
+    # 2) Coletar todos os clientes (limite=100 desde o início para total_paginas correto)
     clientes = {}
     try:
-        meta2 = _gc_get("/clientes?pagina=1&limite=1", access, secret)
+        meta2 = _gc_get("/clientes?pagina=1&limite=100", access, secret)
         total_pag2 = meta2["meta"]["total_paginas"]
-        for pag in range(1, total_pag2 + 1):
+        for c in meta2["data"]:
+            end = c.get("enderecos", [{}])
+            end_data = end[0].get("endereco", {}) if end else {}
+            clientes[c["id"]] = {
+                "nome": c["nome"],
+                "vendedor": c.get("nome_vendedor", "").lower().strip(),
+                "cidade": end_data.get("nome_cidade", ""),
+                "estado": end_data.get("estado", ""),
+            }
+        for pag in range(2, total_pag2 + 1):
             resp = _gc_get(f"/clientes?pagina={pag}&limite=100", access, secret)
             for c in resp["data"]:
                 end = c.get("enderecos", [{}])
