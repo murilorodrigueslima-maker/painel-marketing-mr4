@@ -808,10 +808,14 @@ with tab4:
 
     lista_viva = []
     if gc_access and gc_secret:
-        with st.spinner("Buscando clientes no GestãoClick..."):
+        with st.spinner("⏳ Carregando clientes do GestãoClick... (só demora na 1ª vez, depois fica em cache por 1h)"):
             lista_viva = buscar_clientes_reativacao(gc_access, gc_secret)
         with col_info:
+            from datetime import datetime as _dt
             st.caption(f"✅ Dados ao vivo do GestãoClick · {len(lista_viva)} clientes · atualiza a cada 1h")
+        if not lista_viva:
+            st.warning("⚠️ Não foi possível buscar dados do GestãoClick. Usando lista salva.")
+            lista_viva = REATIVACAO_BASE
     else:
         lista_viva = REATIVACAO_BASE
         with col_info:
