@@ -17,6 +17,45 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# ── Login ───────────────────────────────────────────────────────────────────
+SENHA_CORRETA = "mr4marketing"
+
+if "autenticado" not in st.session_state:
+    st.session_state.autenticado = False
+
+if not st.session_state.autenticado:
+    st.markdown("""
+    <style>
+      body, .stApp { background-color: #0f172a; color: #e2e8f0; }
+      .login-box {
+        max-width: 380px;
+        margin: 100px auto;
+        background: #1e293b;
+        border-radius: 16px;
+        padding: 40px;
+        text-align: center;
+        border: 1px solid #334155;
+      }
+      .login-box h2 { color: #f97316; margin-bottom: 8px; }
+      .login-box p  { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+    </style>
+    <div class="login-box">
+      <h2>📣 MR4 Marketing</h2>
+      <p>Painel exclusivo da equipe MR4 Distribuidora</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        senha = st.text_input("🔑 Senha de acesso", type="password", placeholder="Digite a senha...")
+        if st.button("Entrar", use_container_width=True, type="primary"):
+            if senha == SENHA_CORRETA:
+                st.session_state.autenticado = True
+                st.rerun()
+            else:
+                st.error("Senha incorreta. Tente novamente.")
+    st.stop()
+
 # ── Persistência (JSON local) ───────────────────────────────────────────────
 DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "marketing_data.json")
 
