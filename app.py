@@ -81,7 +81,7 @@ def _gc_get(endpoint, access, secret):
     with urllib.request.urlopen(req, timeout=20) as r:
         return json.loads(r.read())
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def buscar_clientes_reativacao(access, secret):
     hoje = datetime.today()
     data_corte = (hoje - timedelta(days=120)).strftime("%Y-%m-%d")
