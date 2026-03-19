@@ -342,14 +342,81 @@ CALENDARIO = [
 ]
 
 REATIVACAO_BASE = [
-    {"id":"r01","cliente":"Real Auto Peças","cidade":"Fortaleza/CE","ultimo":"Mar/26","produto":"LED Fênix"},
-    {"id":"r02","cliente":"Drums Som Acessórios","cidade":"Fortaleza/CE","ultimo":"Mar/26","produto":"Alto-falante Nano"},
-    {"id":"r03","cliente":"Bola Som","cidade":"Fortaleza/CE","ultimo":"Mar/26","produto":"Multimídia"},
-    {"id":"r04","cliente":"Hélio Mendonça","cidade":"Caririaçu/CE","ultimo":"Mar/26","produto":"LED Fênix"},
-    {"id":"r05","cliente":"Estabilcar","cidade":"Fortaleza/CE","ultimo":"Mar/26","produto":"Verificar histórico"},
-    {"id":"r06","cliente":"Lucivando da Silva","cidade":"Fortaleza/CE","ultimo":"Mar/26","produto":"Verificar histórico"},
-    {"id":"r07","cliente":"GX Lava Jato","cidade":"Aquiraz/CE","ultimo":"Mar/26","produto":"Verificar histórico"},
-    {"id":"r08","cliente":"Siney Freire","cidade":"Cascavel/CE","ultimo":"Mar/26","produto":"Verificar histórico"},
+    {"id":"r01","cliente":"KAYO LED","cidade":"Sobral/CE","ultimo":"101 dias","historico":53313,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r02","cliente":"VITOR SOM EQUIPADORA","cidade":"Itaitinga/CE","ultimo":"80 dias","historico":9622,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r03","cliente":"JUNIOR SOM","cidade":"Redenção/CE","ultimo":"99 dias","historico":6767,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r04","cliente":"ALLAN TRANSPORTES","cidade":"Fortaleza/CE","ultimo":"93 dias","historico":6607,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r05","cliente":"AUTOPECAS & SERVICOS RJ","cidade":"Umirim/CE","ultimo":"107 dias","historico":5695,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r06","cliente":"STOPFILM","cidade":"Fortaleza/CE","ultimo":"97 dias","historico":5311,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r07","cliente":"NATANAEL LIMA","cidade":"/","ultimo":"113 dias","historico":4290,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r08","cliente":"JAJA SOM E ACESSORIOS LTDA","cidade":"Fortaleza/CE","ultimo":"80 dias","historico":4090,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r09","cliente":"MT SERVIÇO","cidade":"Caucaia/CE","ultimo":"79 dias","historico":2355,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r10","cliente":"FRANCISCO ISRAEL BRUNO MARTINS PARENTE","cidade":"Hidrolândia/CE","ultimo":"94 dias","historico":1492,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r11","cliente":"JAMACARU AUTOPECAS","cidade":"Missão Velha/CE","ultimo":"49 dias","historico":1472,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r12","cliente":"DELIO FEITOSA FILHO","cidade":"Teresina/PI","ultimo":"61 dias","historico":1417,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r13","cliente":"LOPES VEICULOS CONCEITO","cidade":"Fortaleza/CE","ultimo":"106 dias","historico":1398,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r14","cliente":"KAQUERA TALENTO AUTOMOTIVO","cidade":"Taquaritinga do Norte/PE","ultimo":"48 dias","historico":1143,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r15","cliente":"AL CAR","cidade":"Fortaleza/CE","ultimo":"86 dias","historico":1040,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r16","cliente":"Supreme Peças e Acessórios","cidade":"Fortaleza/CE","ultimo":"112 dias","historico":1012,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r17","cliente":"PEDRO FUMÊ","cidade":"Iguatu/CE","ultimo":"93 dias","historico":906,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r18","cliente":"LABORATORIO AUTOMOTIVO","cidade":"Fortaleza/CE","ultimo":"90 dias","historico":864,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r19","cliente":"VIVI SOM","cidade":"Fortaleza/CE","ultimo":"66 dias","historico":769,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r20","cliente":"FORCA LIVRE RACING PECAS E SERVICOS","cidade":"Fortaleza/CE","ultimo":"52 dias","historico":719,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r21","cliente":"GAMBARINI SERVICOS AUTOMOTIVOS","cidade":"Eusébio/CE","ultimo":"91 dias","historico":664,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r22","cliente":"REVIZZI AUTO CENTER","cidade":"Picos/PI","ultimo":"57 dias","historico":643,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r23","cliente":"EMPÓRIO LEDS","cidade":"Pedra Branca/CE","ultimo":"57 dias","historico":634,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r24","cliente":"BROTHES CAR SERVICE","cidade":"Fortaleza/CE","ultimo":"90 dias","historico":506,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r25","cliente":"SPEED","cidade":"Aracati/CE","ultimo":"48 dias","historico":491,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r26","cliente":"C2 ACESSORIOS","cidade":"Fortaleza/CE","ultimo":"59 dias","historico":487,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r27","cliente":"ALISSON FUME E ACESSORIOS","cidade":"Caucaia/CE","ultimo":"52 dias","historico":481,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r28","cliente":"GARAGE020","cidade":"Maracanaú/CE","ultimo":"87 dias","historico":433,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r29","cliente":"BROTHER´S SOM E ACESSORIOS","cidade":"Fortaleza/CE","ultimo":"48 dias","historico":426,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r30","cliente":"RS LEDS","cidade":"Fortaleza/CE","ultimo":"72 dias","historico":395,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r31","cliente":"HYEDY SOM E ACESSORIOS","cidade":"Caridade/CE","ultimo":"56 dias","historico":285,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r32","cliente":"Rodrigo severo Diniz","cidade":"Maracanaú/CE","ultimo":"73 dias","historico":261,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r33","cliente":"Dalyson De Queiroz Barros","cidade":"Fortaleza/CE","ultimo":"49 dias","historico":256,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r34","cliente":"CENTER FAROIS","cidade":"Fortaleza/CE","ultimo":"56 dias","historico":211,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r35","cliente":"TOP LEDS","cidade":"Natal/RN","ultimo":"45 dias","historico":200,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r36","cliente":"PLAY MOTO PREMIUM","cidade":"Fortaleza/CE","ultimo":"92 dias","historico":178,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r37","cliente":"Leonardo gomes da silva","cidade":"Fortaleza/CE","ultimo":"64 dias","historico":173,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r38","cliente":"ADEMIR MARTINS FELIX JUNIOR","cidade":"Fortaleza/CE","ultimo":"49 dias","historico":168,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r39","cliente":"ALESSANDRO MONTEIRO DOS SANTOS LTDA","cidade":"Fortim/CE","ultimo":"50 dias","historico":164,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r40","cliente":"EMANOEL SOM","cidade":"Fortaleza/CE","ultimo":"57 dias","historico":154,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r41","cliente":"José Veloso Filho","cidade":"/","ultimo":"45 dias","historico":138,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r42","cliente":"Antônio Rodrigues Pereira Filho","cidade":"Fortaleza/CE","ultimo":"55 dias","historico":96,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r43","cliente":"BRAYN GLASS POLIMENTO DE VIDRO E FAROL","cidade":"Horizonte/CE","ultimo":"48 dias","historico":80,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r44","cliente":"JUNINHO LAVSCAR","cidade":"Fortaleza/CE","ultimo":"72 dias","historico":72,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r45","cliente":"W.S FILM","cidade":"Fortaleza/CE","ultimo":"55 dias","historico":61,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r46","cliente":"MAX STYLE","cidade":"Fortaleza/CE","ultimo":"58 dias","historico":60,"prioridade":"🟡 Em risco","origem":"Fabiana"},
+    {"id":"r47","cliente":"THIAAGO ACESSÓRIOS","cidade":"Fortaleza/CE","ultimo":"51 dias","historico":29,"prioridade":"🟡 Em risco","origem":"Órfão"},
+    {"id":"r48","cliente":"MAX BASS EQUIPADORA","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":19493,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r49","cliente":"Alan kayvison Queiroz de oliveira","cidade":"Pacatuba/CE","ultimo":"120+ dias","historico":17106,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r50","cliente":"Magno Ernesto Teixeira","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":16201,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r51","cliente":"GENAINA XIMENES MOREIRA","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":13697,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r52","cliente":"ALLAN CRISTYAN OLIVEIRA DE PAULA","cidade":"/","ultimo":"120+ dias","historico":12970,"prioridade":"🔴 Inativo","origem":"Fabiana"},
+    {"id":"r53","cliente":"BC PRODUTOS AUTOMOTIVOS","cidade":"Madalena/CE","ultimo":"120+ dias","historico":8877,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r54","cliente":"KING ACESSORIOS AUTOMOTIVO","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":8465,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r55","cliente":"BRASIL CAR PINTURAS AUTOMOTIVAS","cidade":"Juazeiro do Norte/CE","ultimo":"120+ dias","historico":8418,"prioridade":"🔴 Inativo","origem":"Fabiana"},
+    {"id":"r56","cliente":"PINTURAS AUTOMOTIVAS","cidade":"Solonópole/CE","ultimo":"120+ dias","historico":8418,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r57","cliente":"ITALO SOM","cidade":"Maracanaú/CE","ultimo":"120+ dias","historico":7306,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r58","cliente":"LUB CENTER CARIRE","cidade":"Cariré/CE","ultimo":"120+ dias","historico":6926,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r59","cliente":"PADRÃO 55 / GARAGEM55","cidade":"Aracati/CE","ultimo":"120+ dias","historico":6320,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r60","cliente":"SUED CAR SHOP","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":5993,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r61","cliente":"ATS TRANSPORTES","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":5453,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r62","cliente":"REMAQ","cidade":"Joaquim Pires/PI","ultimo":"120+ dias","historico":5368,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r63","cliente":"ALEX CAR","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":5330,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r64","cliente":"MFLEDS","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":4205,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r65","cliente":"ALEX AN CAR","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":4104,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r66","cliente":"ROBERTO SOM","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":3907,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r67","cliente":"Francisco Jhonantan ferreira Freitas","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":3880,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r68","cliente":"V W MANUTENCAO E SERVICOS","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":3795,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r69","cliente":"Oficina o Chico Juan Laureano Mesquita","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":3385,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r70","cliente":"TOP GEAR FILM","cidade":"Caucaia/CE","ultimo":"120+ dias","historico":3361,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r71","cliente":"HELIO ACESSORIOS","cidade":"Redenção/CE","ultimo":"120+ dias","historico":3350,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r72","cliente":"AJ ACESSORIOS","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":3343,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r73","cliente":"Guilherme de mesquita Rodrigues","cidade":"Fortaleza/CE","ultimo":"120+ dias","historico":3300,"prioridade":"🔴 Inativo","origem":"Órfão"},
+    {"id":"r74","cliente":"CARLINHOS FUMÊ 2024","cidade":"Maracanaú/CE","ultimo":"120+ dias","historico":3246,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
+    {"id":"r75","cliente":"MARLON MICASSIO SILVESTRE","cidade":"Ubajara/CE","ultimo":"120+ dias","historico":3164,"prioridade":"🔴 Inativo","origem":"Ademir→Fabiana"},
 ]
 
 STATUS_CONTENT = ["⬜ Pendente","🎬 Gravando","✏️ Editando","✅ Publicado","❌ Cancelado"]
@@ -654,11 +721,13 @@ with tab4:
         current_status = r_data.get("status","⬜ Pendente")
         cor = "card-green" if "✅" in current_status else ("card-yellow" if "🟡" in current_status or "🟢" in current_status else "card-red" if "❌" in current_status else "")
 
-        with st.expander(f"{item['cliente']} — {item['cidade']} · {current_status}"):
+        hist_fmt = f"R$ {item.get('historico',0):,.0f}".replace(",",".")
+        with st.expander(f"{item['prioridade']} {item['cliente']} — {item['cidade']} | Histórico: {hist_fmt} · {current_status}"):
             rc1, rc2 = st.columns([2,1])
             with rc1:
-                st.markdown(f"**Produto histórico:** {item['produto']}")
-                st.markdown(f"**Último pedido:** {item['ultimo']}")
+                st.markdown(f"**Último contato:** {item['ultimo']}")
+                st.markdown(f"**Histórico de compras:** {hist_fmt}")
+                st.markdown(f"**Carteira:** {item.get('origem','—')}")
                 novo_status = st.selectbox("Status do contato", STATUS_REATIV,
                     index=STATUS_REATIV.index(current_status),
                     key=f"reat_sel_{item['id']}")
@@ -667,7 +736,8 @@ with tab4:
                 st.markdown(f"""
                 <div class='card {cor}' style='margin-top:20px'>
                   <b>{item['cliente']}</b><br>
-                  <span style='font-size:12px;color:#94a3b8'>{current_status}</span>
+                  <span style='font-size:13px;color:#f97316'>{hist_fmt}</span><br>
+                  <span style='font-size:11px;color:#94a3b8'>{item.get('origem','—')} · {current_status}</span>
                 </div>
                 """, unsafe_allow_html=True)
             if st.button("Salvar", key=f"reat_save_{item['id']}"):
