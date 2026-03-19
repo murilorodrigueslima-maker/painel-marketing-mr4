@@ -130,7 +130,7 @@ st.divider()
 # ── Conteúdo do calendário ──────────────────────────────────────────────────
 CALENDARIO = [
     {
-        "id":"c01","data":"19/03","dia":"Qua","tipo":"POST","titulo":"Conheça a MR4 Distribuidora","resp":"Murilo","semana":1,
+        "id":"c01","data":"23/03","dia":"Seg","tipo":"POST","titulo":"Conheça a MR4 Distribuidora","resp":"Murilo","semana":1,
         "objetivo": "Apresentar a empresa para novos seguidores e reforçar credibilidade",
         "formato": "Imagem carrossel (3-5 slides) ou foto do galpão com equipe",
         "roteiro": "Slide 1: Logo MR4 + frase de impacto\nSlide 2: 'Somos distribuidores de acessórios automotivos para lojistas e instaladores do Nordeste'\nSlide 3: Produtos principais (foto do estoque: LED, alto-falantes, multimídias)\nSlide 4: Diferenciais — Entrega rápida · Sem burocracia · WhatsApp direto\nSlide 5: CTA — 'Chama a gente no WhatsApp e peça sua tabela de preços'",
@@ -140,7 +140,7 @@ CALENDARIO = [
         "obs": "Usar fotos reais do galpão e dos produtos. Evitar imagens de banco de dados."
     },
     {
-        "id":"c02","data":"20/03","dia":"Qui","tipo":"REELS","titulo":"Tour no Galpão","resp":"Murilo","semana":1,
+        "id":"c02","data":"24/03","dia":"Ter","tipo":"REELS","titulo":"Tour no Galpão","resp":"Murilo","semana":1,
         "objetivo": "Gerar prova de existência e eliminar desconfiança de compra online",
         "formato": "Vídeo vertical 9:16 · Duração: 30-45 segundos · Câmera na mão (estilo espontâneo)",
         "roteiro": "0-3s: Câmera aponta pro estoque cheio — VOZ: 'Deixa eu te mostrar o estoque da MR4 hoje...'\n3-15s: Passeio mostrando prateleiras — LED Fênix, Alto-falantes Nano/Bomber, Multimídias, Molduras\nVOZ: 'Aqui ó, lâmpadas LED Fênix. Aqui os Bomber. Aqui as multimídias, tudo com nota fiscal, tudo pronto pra sair hoje.'\n15-25s: VOZ: 'A gente mostra o estoque porque muita gente tem medo de comprar online e cair em golpe. Aqui é empresa de verdade, com estrutura de verdade.'\n25-35s: CTA — 'Você é lojista ou instalador no Nordeste? Chama no WhatsApp. Link na bio.'",
@@ -150,7 +150,7 @@ CALENDARIO = [
         "obs": "Gravar de manhã com boa iluminação natural. Mostrar variedade. Falar com naturalidade, não precisa ser perfeito."
     },
     {
-        "id":"c03","data":"21/03","dia":"Sex","tipo":"POST","titulo":"Top 3 produtos para sua loja","resp":"Murilo","semana":1,
+        "id":"c03","data":"25/03","dia":"Qua","tipo":"POST","titulo":"Top 3 produtos para sua loja","resp":"Murilo","semana":1,
         "objetivo": "Educar o lojista sobre produtos de alto giro — gerar interesse em comprar",
         "formato": "Carrossel 4 slides ou post único com layout de ranking",
         "roteiro": "Slide 1: '🏆 Top 3 produtos que mais giram em lojas de acessórios no Nordeste'\nSlide 2: '1º LUGAR — Lâmpada LED Fênix' + foto do produto + 'Alta demanda, fácil de vender, ótima margem para revenda'\nSlide 3: '2º LUGAR — Alto-falante Bomber' + foto + 'O mais pedido por instaladores. Sai todo dia.'\nSlide 4: '3º LUGAR — Multimídia Automotiva' + foto + 'Produto que fideliza cliente. Quem compra, volta.' + CTA",
@@ -160,7 +160,7 @@ CALENDARIO = [
         "obs": "Usar fotos reais dos produtos. Se possível, mostrar o produto na mão ou em prateleira."
     },
     {
-        "id":"c04","data":"22/03","dia":"Sáb","tipo":"STORIES","titulo":"Bastidores + Enquete","resp":"Fabiana","semana":1,
+        "id":"c04","data":"26/03","dia":"Qui","tipo":"STORIES","titulo":"Bastidores + Enquete","resp":"Fabiana","semana":1,
         "objetivo": "Engajar a audiência e entender o que os seguidores precisam",
         "formato": "3-5 stories consecutivos",
         "roteiro": "Story 1: Foto ou vídeo rápido do movimento do dia — 'Sábado tem expediente na MR4 💪'\nStory 2: Mostrar separação de pedido ou produto em destaque — 'Olha o que saiu hoje...'\nStory 3: ENQUETE — 'Qual produto você tem mais dificuldade de encontrar perto de você?' Opções: LED | Alto-falante | Multimídia | Outro\nStory 4: Caixa de perguntas — 'Me conta: você tem loja de acessórios ou faz instalação?'\nStory 5: CTA — 'Quer trabalhar com a gente? Link na bio 👇'",
@@ -170,7 +170,7 @@ CALENDARIO = [
         "obs": "Fabiana pode gravar isso com o próprio celular durante o expediente. Quanto mais espontâneo, melhor."
     },
     {
-        "id":"c05","data":"24/03","dia":"Seg","tipo":"POST","titulo":"Pedido feito, pedido entregue","resp":"Murilo","semana":1,
+        "id":"c05","data":"28/03","dia":"Sáb","tipo":"POST","titulo":"Pedido feito, pedido entregue","resp":"Murilo","semana":1,
         "objetivo": "Mostrar agilidade e confiabilidade na entrega — eliminar objeção de prazo",
         "formato": "Foto do motoboy/entrega + produto ou print de confirmação de envio",
         "roteiro": "Imagem principal: Motoboy com produto ou caixa pronta para envio\nTexto sobreposto: 'Pedido feito hoje → Saiu hoje'\nDetalhe: mostrar nota fiscal junto se possível",
@@ -180,7 +180,7 @@ CALENDARIO = [
         "obs": "Tirar foto real do motoboy ou da separação de pedido. Autenticidade vale mais que produção."
     },
     {
-        "id":"c06","data":"25/03","dia":"Ter","tipo":"REELS","titulo":"Unboxing LED Fênix","resp":"Murilo","semana":1,
+        "id":"c06","data":"29/03","dia":"Dom","tipo":"REELS","titulo":"Unboxing LED Fênix","resp":"Murilo","semana":1,
         "objetivo": "Mostrar o produto em detalhe e gerar desejo de revenda",
         "formato": "Vídeo vertical 9:16 · 30-40 segundos · Mão abrindo embalagem e mostrando produto",
         "roteiro": "0-3s: Mão pega a caixa do LED Fênix — TEXT NA TELA: 'O produto que mais vende na sua loja...'\n3-15s: Abre a embalagem, mostra o produto, acende o LED se possível\nVOZ: 'Essa é a lâmpada LED Fênix. Olha a qualidade. Olha o encaixe. É isso que tá saindo toda semana nas lojas que trabalham com a gente.'\n15-25s: Mostra preço de custo vs sugestão de revenda (se quiser revelar margem)\nVOZ: 'Você compra por X, revende por Y. Simples assim.'\n25-35s: CTA — 'Quer ter esse produto na sua loja? Chama a MR4 no WhatsApp.'",
@@ -190,7 +190,7 @@ CALENDARIO = [
         "obs": "Gravar com boa iluminação para mostrar o brilho do LED. Pode usar música animada no fundo."
     },
     {
-        "id":"c07","data":"26/03","dia":"Qua","tipo":"POST","titulo":"Como montar vitrine de LED","resp":"Murilo","semana":2,
+        "id":"c07","data":"30/03","dia":"Seg","tipo":"POST","titulo":"Como montar vitrine de LED","resp":"Murilo","semana":2,
         "objetivo": "Educar o lojista — conteúdo que o cliente DO SEU CLIENTE consome. Posiciona MR4 como parceiro estratégico",
         "formato": "Carrossel 5-6 slides com dicas práticas",
         "roteiro": "Slide 1: 'Como montar uma vitrine de LED que vende sozinha 💡'\nSlide 2: '1. Organize por aplicação' — Ex: LEDs para farol, LEDs para interior, LEDs para placa\nSlide 3: '2. Mostre o produto aceso' — Cliente precisa ver o resultado antes de comprar\nSlide 4: '3. Coloque o preço de forma clara' — Sem preço, o cliente passa direto\nSlide 5: '4. Tenha variedade de encaixe' — H4, H7, H11... cada carro pede um tipo\nSlide 6: 'Precisa de estoque de LED pra montar sua vitrine? A MR4 tem tudo. Chama no WhatsApp 👇'",
@@ -200,7 +200,7 @@ CALENDARIO = [
         "obs": "Conteúdo educativo tem mais compartilhamento. Lojistas vão salvar esse post. Isso aumenta o alcance orgânico."
     },
     {
-        "id":"c08","data":"27/03","dia":"Qui","tipo":"REELS","titulo":"Quanto você lucra revendendo?","resp":"Murilo","semana":2,
+        "id":"c08","data":"31/03","dia":"Ter","tipo":"REELS","titulo":"Quanto você lucra revendendo?","resp":"Murilo","semana":2,
         "objetivo": "Mostrar a margem de revenda de forma concreta — principal gatilho para lojista pedir tabela",
         "formato": "Vídeo vertical 9:16 · 30-40s · Pessoa falando pra câmera ou texto animado",
         "roteiro": "0-3s: TEXT GRANDE NA TELA: 'Quanto você lucra revendendo LED automotivo?'\n3-10s: VOZ: 'Vou te mostrar um exemplo real...'\n10-25s: Mostrar na tela ou falar: 'Você compra a lâmpada LED Fênix no atacado. Revende na sua loja pelo preço de varejo. A diferença vai pro seu bolso — sem precisar de muito espaço, sem produto pesado, sem complicação.'\n25-35s: VOZ: 'Se você tem loja de acessórios ou faz instalação e ainda não trabalha com a MR4, tá deixando dinheiro na mesa. Chama a gente no WhatsApp.'",
@@ -210,7 +210,7 @@ CALENDARIO = [
         "obs": "Não precisa revelar preços exatos — o objetivo é gerar curiosidade e fazer o lojista chamar no WhatsApp."
     },
     {
-        "id":"c09","data":"28/03","dia":"Sex","tipo":"POST","titulo":"O que nossos clientes dizem","resp":"Fabiana","semana":2,
+        "id":"c09","data":"01/04","dia":"Qua","tipo":"POST","titulo":"O que nossos clientes dizem","resp":"Fabiana","semana":2,
         "objetivo": "Prova social — o depoimento de um cliente convence mais do que qualquer copy",
         "formato": "Print de conversa do WhatsApp (com permissão) ou foto do cliente na loja + texto",
         "roteiro": "Opção A: Print de elogio ou feedback positivo de cliente no WhatsApp\nOpção B: Foto do cliente na loja dele com produtos MR4 + depoimento escrito\nTexto sobreposto: Nome do cliente, cidade e o que ele disse",
@@ -220,7 +220,7 @@ CALENDARIO = [
         "obs": "IMPORTANTE: Pedir autorização ao cliente antes de postar. Pode ser um print sem mostrar número de telefone."
     },
     {
-        "id":"c10","data":"31/03","dia":"Seg","tipo":"POST","titulo":"Programa de Indicação — Lançamento","resp":"Murilo","semana":2,
+        "id":"c10","data":"04/04","dia":"Sáb","tipo":"POST","titulo":"Programa de Indicação — Lançamento","resp":"Murilo","semana":2,
         "objetivo": "Ativar a base de clientes para indicar novos lojistas — crescimento orgânico",
         "formato": "Post único com layout chamativo ou carrossel de 2-3 slides",
         "roteiro": "Slide 1: '🎁 LANÇAMENTO — Programa de Indicação MR4'\nSlide 2: 'Como funciona:\n1. Você indica um lojista ou instalador\n2. Ele faz o primeiro pedido\n3. Você ganha 5% de crédito na sua próxima compra'\nSlide 3: 'Simples assim. Você indica, a gente cuida do resto, e você ainda ganha em cima.'",
@@ -230,7 +230,7 @@ CALENDARIO = [
         "obs": "Além do post, enviar mensagem direta no WhatsApp para os 8 clientes ativos avisando do programa."
     },
     {
-        "id":"c11","data":"01/04","dia":"Ter","tipo":"REELS","titulo":"Nano vs Bomber — Qual escolher?","resp":"Murilo","semana":2,
+        "id":"c11","data":"05/04","dia":"Dom","tipo":"REELS","titulo":"Nano vs Bomber — Qual escolher?","resp":"Murilo","semana":2,
         "objetivo": "Educar instaladores sobre diferença entre produtos — aumentar confiança técnica da MR4",
         "formato": "Vídeo vertical 9:16 · 40-50s · Comparativo com os dois produtos na mão",
         "roteiro": "0-3s: Dois alto-falantes lado a lado — TEXT: 'Nano ou Bomber? Qual colocar no carro do seu cliente?'\n3-20s: VOZ: 'A linha Nano é mais compacta, ideal para carros menores e quem quer qualidade com custo acessível. Já o Bomber é mais robusto, potência maior, pra quem quer mais volume e graves.'\n20-35s: 'Os dois têm boa saída. A diferença tá no perfil do cliente e no que você quer oferecer.'\n35-45s: CTA — 'A MR4 distribui os dois. Chama no WhatsApp e a gente te ajuda a montar seu estoque.'",
@@ -240,7 +240,7 @@ CALENDARIO = [
         "obs": "Falar com autoridade técnica. Esse conteúdo será salvo e compartilhado por instaladores."
     },
     {
-        "id":"c12","data":"02/04","dia":"Qua","tipo":"POST","titulo":"Os números de quem revende LED Fênix","resp":"Murilo","semana":3,
+        "id":"c12","data":"06/04","dia":"Seg","tipo":"POST","titulo":"Os números de quem revende LED Fênix","resp":"Murilo","semana":3,
         "objetivo": "Mostrar resultado concreto de revenda — gatilho de prova social com números",
         "formato": "Post com layout de dados/infográfico simples",
         "roteiro": "Layout com fundo escuro e números em destaque:\n'📊 Números reais de quem revende LED Fênix com a MR4:\n• Produto mais pedido nas lojas de acessórios do Nordeste\n• Alta margem de revenda por unidade\n• Tempo médio de giro: menos de 30 dias\n• Zero devolução por defeito de fábrica'",
@@ -250,7 +250,7 @@ CALENDARIO = [
         "obs": "Se tiver dados reais de quantas unidades vendeu no mês, use. Números reais são mais poderosos."
     },
     {
-        "id":"c13","data":"03/04","dia":"Qui","tipo":"REELS","titulo":"Bastidores — Um dia na MR4","resp":"Murilo","semana":3,
+        "id":"c13","data":"07/04","dia":"Ter","tipo":"REELS","titulo":"Bastidores — Um dia na MR4","resp":"Murilo","semana":3,
         "objetivo": "Humanizar a marca. Mostrar equipe, rotina, estrutura. Gera confiança e conexão",
         "formato": "Vídeo vertical 9:16 · 45-60s · Compilado de cenas do dia",
         "roteiro": "0-5s: Abertura do galpão de manhã\n5-15s: Equipe chegando, separação de pedidos\n15-25s: Estoquista organizando produtos\n25-35s: Vendedora atendendo no WhatsApp\n35-45s: Motoboy saindo com entregas\n45-55s: Pedido chegando e cliente confirmando\n55-60s: TEXT FINAL: 'Esse é o time MR4. Trabalhando pra fazer seu estoque girar. 💪'\nCTA: Chama no WhatsApp",
@@ -260,7 +260,7 @@ CALENDARIO = [
         "obs": "Pedir pra equipe agir naturalmente. Não precisa posar. Quanto mais real, mais engajamento gera."
     },
     {
-        "id":"c14","data":"04/04","dia":"Sex","tipo":"POST","titulo":"Multimídia automotiva — produto que fideliza","resp":"Murilo","semana":3,
+        "id":"c14","data":"08/04","dia":"Qua","tipo":"POST","titulo":"Multimídia automotiva — produto que fideliza","resp":"Murilo","semana":3,
         "objetivo": "Destacar multimídia como produto estratégico para lojistas que querem ticket maior",
         "formato": "Foto do produto + carrossel com benefícios",
         "roteiro": "Slide 1: Foto da multimídia + 'O produto que faz o cliente voltar'\nSlide 2: 'Por que vender multimídia?' — Ticket mais alto · Instalação paga · Cliente volta pro serviço\nSlide 3: 'Disponível na MR4 — Preço de distribuidor + Entrega no Nordeste'\nSlide 4: CTA",
@@ -270,7 +270,7 @@ CALENDARIO = [
         "obs": "Focar no benefício para o lojista (ticket maior), não apenas nas especificações técnicas do produto."
     },
     {
-        "id":"c15","data":"07/04","dia":"Seg","tipo":"POST","titulo":"Vocês falaram, a gente ouviu","resp":"Murilo","semana":3,
+        "id":"c15","data":"11/04","dia":"Sáb","tipo":"POST","titulo":"Vocês falaram, a gente ouviu","resp":"Murilo","semana":3,
         "objetivo": "Mostrar que a empresa ouve os clientes — responder enquete dos stories da semana 1",
         "formato": "Post único com resultado da enquete + resposta da empresa",
         "roteiro": "Publicar o resultado da enquete dos stories (22/03) sobre qual produto o cliente tem mais dificuldade de encontrar.\nMostrar qual produto ganhou e dizer que a MR4 tem estoque desse produto.\nTransformar o feedback em argumento de venda.",
@@ -280,7 +280,7 @@ CALENDARIO = [
         "obs": "DEPENDE da enquete dos stories do dia 22/03. Fabiana precisa salvar o resultado antes de sumir."
     },
     {
-        "id":"c16","data":"08/04","dia":"Ter","tipo":"REELS","titulo":"Kit revenda para loja pequena","resp":"Murilo","semana":3,
+        "id":"c16","data":"12/04","dia":"Dom","tipo":"REELS","titulo":"Kit revenda para loja pequena","resp":"Murilo","semana":3,
         "objetivo": "Apresentar ideia de kit de produtos para lojista iniciante ou loja pequena — reduz barreira de entrada",
         "formato": "Vídeo vertical 9:16 · 35-45s · Produtos montados numa bancada ou caixa",
         "roteiro": "0-3s: Câmera mostrando produtos organizados — TEXT: 'Quer começar a vender acessórios automotivos? Começa por aqui.'\n3-20s: VOZ: 'A gente montou um kit de produtos que fazem sentido pra qualquer loja pequena de acessórios. LED Fênix, um par de Nano, uma multimídia básica e algumas molduras. Produtos que giram. Produtos que o cliente chega pedindo.'\n20-35s: VOZ: 'Você não precisa de um estoque gigante pra começar. Começa com o que vende e vai aumentando.'\n35-45s: CTA — 'Quer saber o preço desse kit? Chama a MR4 no WhatsApp.'",
@@ -290,7 +290,7 @@ CALENDARIO = [
         "obs": "Montar visualmente os produtos juntos numa bancada para o vídeo ter mais impacto."
     },
     {
-        "id":"c17","data":"09/04","dia":"Qua","tipo":"POST","titulo":"⚡ Kit Relâmpago MR4","resp":"Murilo","semana":4,
+        "id":"c17","data":"13/04","dia":"Seg","tipo":"POST","titulo":"⚡ Kit Relâmpago MR4","resp":"Murilo","semana":4,
         "objetivo": "Gerar urgência e vendas rápidas com oferta especial de tempo limitado",
         "formato": "Post único com layout de oferta — cores chamativas, prazo visível",
         "roteiro": "Layout com fundo laranja ou vermelho:\n'⚡ KIT RELÂMPAGO — Só até sexta-feira!'\n3 produtos em combo com preço especial\nCTA: 'Chama no WhatsApp AGORA — estoque limitado'\nContagem: 'Válido até 11/04'",
@@ -300,7 +300,7 @@ CALENDARIO = [
         "obs": "Criar urgência real. Se possível, definir quantidades limitadas de verdade. Não fazer promoção falsa."
     },
     {
-        "id":"c18","data":"10/04","dia":"Qui","tipo":"REELS","titulo":"Março em números — resultados reais","resp":"Murilo","semana":4,
+        "id":"c18","data":"14/04","dia":"Ter","tipo":"REELS","titulo":"Março em números — resultados reais","resp":"Murilo","semana":4,
         "objetivo": "Mostrar crescimento e resultados do mês — gera credibilidade e prova social",
         "formato": "Vídeo vertical 9:16 · 30-40s · Números aparecendo na tela com animação simples",
         "roteiro": "0-5s: TEXT GRANDE: 'Março foi assim na MR4 👇'\n5-20s: Números um a um: X pedidos entregues | X lojistas atendidos | X cidades do Nordeste\n20-30s: VOZ ou TEXT: 'Crescendo junto com quem confia na gente. Obrigado a cada cliente que escolheu a MR4 em março.'\n30-40s: CTA — 'Quer fazer parte em abril? Chama no WhatsApp.'",
@@ -310,7 +310,7 @@ CALENDARIO = [
         "obs": "Usar números reais. Mesmo que modestos, autenticidade gera mais confiança que números inflados."
     },
     {
-        "id":"c19","data":"11/04","dia":"Sex","tipo":"POST","titulo":"Você ainda não trabalha com a MR4?","resp":"Murilo","semana":4,
+        "id":"c19","data":"15/04","dia":"Qua","tipo":"POST","titulo":"Você ainda não trabalha com a MR4?","resp":"Murilo","semana":4,
         "objetivo": "Capturar quem acompanha mas ainda não comprou — post de conversão direta",
         "formato": "Post direto com texto forte e CTA claro",
         "roteiro": "Imagem com texto:\n'Se você tem loja de acessórios ou faz instalação no Nordeste e ainda não trabalha com a MR4...\nA gente precisa conversar.'\nLogo abaixo: lista de diferenciais e CTA",
@@ -320,7 +320,7 @@ CALENDARIO = [
         "obs": "Post de conversão direta. Usar foto do galpão ou equipe como imagem de fundo para reforçar credibilidade."
     },
     {
-        "id":"c20","data":"14/04","dia":"Seg","tipo":"POST","titulo":"Março foi assim — balanço do mês","resp":"Murilo","semana":4,
+        "id":"c20","data":"18/04","dia":"Sáb","tipo":"POST","titulo":"Março foi assim — balanço do mês","resp":"Murilo","semana":4,
         "objetivo": "Consolidar a imagem de empresa em crescimento — gera confiança para novos clientes",
         "formato": "Carrossel 3-4 slides com balanço visual do mês",
         "roteiro": "Slide 1: 'Março 2026 na MR4 — Balanço do mês 📊'\nSlide 2: Números do mês (pedidos, cidades, clientes novos)\nSlide 3: 'O que aprendemos em março:' — produto mais pedido, região que mais comprou, feedback dos clientes\nSlide 4: 'Abril vai ser ainda melhor. Vem com a gente.' + CTA",
@@ -330,7 +330,7 @@ CALENDARIO = [
         "obs": "Usar dados reais. Incluir agradecimento genuíno à base de clientes."
     },
     {
-        "id":"c21","data":"15/04","dia":"Ter","tipo":"REELS","titulo":"Por que lojistas escolhem a MR4","resp":"Murilo","semana":4,
+        "id":"c21","data":"19/04","dia":"Dom","tipo":"REELS","titulo":"Por que lojistas escolhem a MR4","resp":"Murilo","semana":4,
         "objetivo": "Post de fechamento de ciclo — consolidar posicionamento e gerar novos leads",
         "formato": "Vídeo vertical 9:16 · 40-50s · Murilo ou vendedor falando direto pra câmera",
         "roteiro": "0-3s: Olhar direto pra câmera — 'Você já se perguntou por que lojistas do Nordeste estão trocando de fornecedor pra MR4?'\n3-25s: VOZ: 'A resposta é simples. A gente atende rápido, sem burocracia. Você chama no WhatsApp, a gente responde. Você pede, a gente entrega. Sem esperar dias, sem enrolação, sem pedido mínimo absurdo.'\n25-40s: 'Lojistas e instaladores do Ceará, Piauí, Rio Grande do Norte e Paraíba já estão trabalhando com a gente. E os resultados aparecem na semana seguinte.'\n40-50s: CTA — 'Quer ser o próximo? Chama agora. Link na bio.'",
