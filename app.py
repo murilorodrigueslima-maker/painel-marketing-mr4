@@ -8,6 +8,7 @@ import streamlit as st
 import json
 import os
 import urllib.request
+import urllib.parse
 from datetime import date, datetime, timedelta
 
 # ── Config ─────────────────────────────────────────────────────────────────
@@ -176,6 +177,101 @@ def buscar_clientes_reativacao(access, secret):
 
     lista.sort(key=lambda x: (0 if "risco" in x["prioridade"] else 1, -x["historico"]))
     return lista
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def buscar_followup_fabiana(access, secret):
+    """
+    Busca clientes que compraram apenas 1x com a Fabiana nos últimos 35 dias.
+    Janela crítica: 92,4% das recompras acontecem nos primeiros 30 dias.
+    """
+    FABIANA_ID = "1080453"
+    hoje = datetime.today()
+    data_inicio = (hoje - timedelta(days=35)).strftime("%Y-%m-%d")
+    situacoes_ok = {"Concretizada", "Confirmado", "Faturado", "Concluído",
+                    "concretizada", "confirmado", "faturado", "concluído"}
+
+    # 1) Vendas da Fabiana nos últimos 35 dias
+    compras = {}  # cliente_id → {"data", "valor", "produto", "nome_cliente"}
+    contagem = {}  # cliente_id → quantidade de compras no período
+    try:
+        resp = _gc_get(
+            f"/vendas?pagina=1&limite=100&vendedor_id={FABIANA_ID}&data_inicio={data_inicio}",
+            access, secret
+        )
+        total_pag = resp.get("meta", {}).get("total_paginas", 1)
+        paginas = list(resp.get("data", []))
+        for pag in range(2, min(total_pag + 1, 20)):
+            r2 = _gc_get(
+                f"/vendas?pagina={pag}&limite=100&vendedor_id={FABIANA_ID}&data_inicio={data_inicio}",
+                access, secret
+            )
+            paginas.extend(r2.get("data", []))
+
+        for v in paginas:
+            sit = v.get("nome_situacao", "")
+            if sit not in situacoes_ok and sit.lower() not in {s.lower() for s in situacoes_ok}:
+                continue
+            cid = v.get("cliente_id", "")
+            if not cid:
+                continue
+            contagem[cid] = contagem.get(cid, 0) + 1
+            data_v = v.get("data", "")
+            if cid not in compras or data_v < compras[cid]["data"]:
+                prods = v.get("produtos", [])
+                nome_prod = "—"
+                if prods:
+                    p0 = prods[0].get("produto", prods[0])
+                    nome_prod = p0.get("nome_produto", "—")
+                compras[cid] = {
+                    "data": data_v,
+                    "valor": float(v.get("valor_total") or 0),
+                    "produto": nome_prod,
+                    "nome_cliente": v.get("nome_cliente", "Cliente"),
+                }
+    except Exception:
+        return []
+
+    # 2) Filtra apenas 1x compradores no período + busca telefone via clientes
+    candidatos = {cid: info for cid, info in compras.items() if contagem.get(cid, 0) == 1}
+    if not candidatos:
+        return []
+
+    telefones = {}
+    try:
+        resp2 = _gc_get("/clientes?pagina=1&limite=100", access, secret)
+        total_pag2 = resp2.get("meta", {}).get("total_paginas", 1)
+        todos_clientes = list(resp2.get("data", []))
+        for pag in range(2, min(total_pag2 + 1, 50)):
+            rc = _gc_get(f"/clientes?pagina={pag}&limite=100", access, secret)
+            todos_clientes.extend(rc.get("data", []))
+        for c in todos_clientes:
+            if c["id"] in candidatos:
+                telefones[c["id"]] = c.get("celular") or c.get("telefone") or ""
+    except Exception:
+        pass
+
+    # 3) Monta lista final com urgência
+    resultado = []
+    for cid, info in candidatos.items():
+        try:
+            dias = (hoje - datetime.strptime(info["data"], "%Y-%m-%d")).days
+        except Exception:
+            continue
+        if dias > 30:
+            continue  # fora da janela
+        resultado.append({
+            "id": cid,
+            "nome": info["nome_cliente"],
+            "telefone": telefones.get(cid, ""),
+            "produto": info["produto"],
+            "valor": info["valor"],
+            "data_compra": info["data"],
+            "dias": dias,
+        })
+
+    resultado.sort(key=lambda x: -x["dias"])
+    return resultado
 
 data = load_data()
 
@@ -532,12 +628,13 @@ STATUS_REATIV  = ["⬜ Pendente","🟡 Contatado","🟢 Respondeu","✅ Comprou"
 TIPO_CORES = {"POST":"badge-blue","REELS":"badge-red","STORIES":"badge-yellow"}
 
 # ── Abas ────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "📅 Hoje & Esta Semana",
     "🗓️ Calendário 30 Dias",
     "📊 KPIs Semanais",
     "📞 Reativação de Clientes",
     "🔄 Relatório Semanal",
+    "💬 Follow-Up Fabiana",
 ])
 
 # ═══════════════════════════════════════════════════
@@ -969,5 +1066,162 @@ with tab5:
         """.strip()
         st.code(relatorio, language=None)
         st.success("✅ Copie o texto acima e cole na conversa com o consultor IA!")
+
+# ═══════════════════════════════════════════════════
+# ABA 6 — FOLLOW-UP FABIANA
+# ═══════════════════════════════════════════════════
+with tab6:
+    st.markdown("### 💬 Follow-Up do Dia — Fabiana")
+
+    # helpers
+    def _wa_link(tel, msg):
+        t = "".join(c for c in (tel or "") if c.isdigit())
+        if not t: return None
+        if not t.startswith("55"): t = "55" + t
+        return f"https://wa.me/{t}?text={urllib.parse.quote(msg)}"
+
+    def _mensagem_followup(nome, produto, dias):
+        n = (nome or "Cliente").split()[0].capitalize()
+        p = (produto or "nosso produto")[:50]
+        if dias <= 19:
+            return (f"Olá {n}! Tudo bem? 😊\nAqui é a Fabiana da MR4.\n"
+                    f"Você comprou {p} há {dias} dias — espero que esteja usando bem!\n"
+                    f"Caso precise repor ou queira conhecer outros produtos, é só me chamar. "
+                    f"Tenho novidades que vão combinar com o que você levou 💼")
+        else:
+            return (f"Oi {n}! Aqui é a Fabiana da MR4 😊\n"
+                    f"Vi que faz {dias} dias desde sua última compra e queria saber se ficou satisfeito com {p}.\n"
+                    f"Esta semana estou com condições especiais para clientes recentes — "
+                    f"posso te apresentar? É rápido, prometo! 🎁")
+
+    # Credenciais
+    gc_access_fu = st.secrets.get("GESTAOCLICK_ACCESS_TOKEN", "")
+    gc_secret_fu = st.secrets.get("GESTAOCLICK_SECRET_TOKEN", "")
+
+    # Garante chave no data
+    if "followup" not in data:
+        data["followup"] = {}
+
+    col_fu1, col_fu2 = st.columns([4, 1])
+    with col_fu1:
+        st.markdown(
+            "<div class='card card-blue'>📌 <b>Janela de 30 dias:</b> 92,4% das recompras "
+            "acontecem nesse período. Contate entre o <b>7º e 25º dia</b> após a primeira compra.</div>",
+            unsafe_allow_html=True
+        )
+    with col_fu2:
+        if st.button("🔄 Atualizar", use_container_width=True, key="fu_refresh"):
+            st.cache_data.clear()
+            st.rerun()
+
+    # Carrega lista
+    lista_fu = []
+    if gc_access_fu and gc_secret_fu:
+        with st.spinner("⏳ Buscando clientes no GestãoClick..."):
+            lista_fu = buscar_followup_fabiana(gc_access_fu, gc_secret_fu)
+    else:
+        st.warning("⚠️ Configure GESTAOCLICK_ACCESS_TOKEN e GESTAOCLICK_SECRET_TOKEN nos Secrets do Streamlit.")
+
+    # Agrupa por urgência
+    criticos = [(r, r["dias"]) for r in lista_fu if 20 <= r["dias"] <= 30]
+    acao_fu  = [(r, r["dias"]) for r in lista_fu if  7 <= r["dias"] <= 19]
+    cedo_fu  = [(r, r["dias"]) for r in lista_fu if  1 <= r["dias"] <=  6]
+
+    # Métricas
+    m1, m2, m3, m4 = st.columns(4)
+    total_contatar = len(criticos) + len(acao_fu)
+    for col, val, lbl, cor in [
+        (m1, len(criticos),   "🚨 Críticos (20–30d)",  "#ef4444"),
+        (m2, len(acao_fu),    "⚡ Ação (7–19d)",        "#f97316"),
+        (m3, len(cedo_fu),    "⏳ Aguardar (1–6d)",     "#64748b"),
+        (m4, total_contatar * 462, "💰 Receita potencial", "#22c55e"),
+    ]:
+        val_fmt = f"R$ {val:,.0f}" if "Receita" in lbl else str(val)
+        col.markdown(
+            f"<div class='metric-box'><div class='metric-val' style='color:{cor}'>{val_fmt}</div>"
+            f"<div class='metric-lbl'>{lbl}</div></div>",
+            unsafe_allow_html=True
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    if not lista_fu and gc_access_fu:
+        st.info("Nenhum cliente encontrado na janela de 30 dias. Clique em 🔄 Atualizar para buscar.")
+
+    # Renderiza grupos
+    for titulo, grupo, cor_card in [
+        ("🚨 CRÍTICOS — Última chance (dias 20–30)", criticos, "card-red"),
+        ("⚡ AÇÃO — Momento ideal (dias 7–19)",       acao_fu,  "card-yellow"),
+        ("⏳ AGUARDAR — Muito cedo (dias 1–6)",        cedo_fu,  ""),
+    ]:
+        if not grupo:
+            continue
+        st.markdown(f"#### {titulo} &nbsp; `{len(grupo)} clientes`")
+
+        for row, dias in grupo:
+            cid = str(row["id"])
+            if cid not in data["followup"]:
+                data["followup"][cid] = {"status": "⬜ Pendente", "nota": ""}
+
+            status_fu = data["followup"][cid].get("status", "⬜ Pendente")
+            mensagem  = _mensagem_followup(row["nome"], row["produto"], dias)
+            wa        = _wa_link(row["telefone"], mensagem)
+
+            st.markdown(f"""
+            <div class='card {cor_card}' style='margin-bottom:6px'>
+              <b>{row['nome']}</b>
+              &nbsp;<span class='badge badge-gray'>📅 {dias} dias</span>
+              &nbsp;<span class='badge badge-blue'>💰 R$ {row['valor']:,.2f}</span>
+              &nbsp;<span class='badge {"badge-green" if "✅" in status_fu else "badge-gray"}'>{status_fu}</span>
+              <br><small style='color:#94a3b8'>
+                📱 {row['telefone'] or "(sem telefone)"}
+                &nbsp;|&nbsp; 🛒 {(row['produto'] or '—')[:55]}
+              </small>
+            </div>
+            """, unsafe_allow_html=True)
+
+            col_msg, col_wa, col_mk = st.columns([3, 1, 1])
+            with col_msg:
+                msg_edit = st.text_area("msg", value=mensagem, height=110,
+                                        key=f"fu_msg_{cid}", label_visibility="collapsed")
+            with col_wa:
+                wa_final = _wa_link(row["telefone"], msg_edit) if msg_edit != mensagem else wa
+                if wa_final:
+                    st.markdown(
+                        f"<a href='{wa_final}' target='_blank'>"
+                        f"<button style='width:100%;padding:10px;background:#25D366;color:white;"
+                        f"border:none;border-radius:8px;cursor:pointer;font-weight:700;"
+                        f"font-size:14px;margin-top:4px'>📲 Abrir<br>WhatsApp</button></a>",
+                        unsafe_allow_html=True
+                    )
+                else:
+                    st.warning("Sem\ntelefone")
+            with col_mk:
+                novo_st = st.selectbox(
+                    "Status", ["⬜ Pendente","📱 Contatado","✅ Comprou","❌ Sem retorno"],
+                    index=["⬜ Pendente","📱 Contatado","✅ Comprou","❌ Sem retorno"].index(status_fu)
+                          if status_fu in ["⬜ Pendente","📱 Contatado","✅ Comprou","❌ Sem retorno"] else 0,
+                    key=f"fu_sel_{cid}"
+                )
+                if st.button("💾 Salvar", key=f"fu_save_{cid}", use_container_width=True):
+                    data["followup"][cid]["status"] = novo_st
+                    save_data(data)
+                    st.success("✓ Salvo!")
+                    st.rerun()
+
+            st.markdown("<hr style='border-color:#1e293b;margin:4px 0 12px'>",
+                        unsafe_allow_html=True)
+
+    # Panorama geral
+    if lista_fu:
+        st.markdown("---")
+        st.markdown("#### 📊 Panorama geral")
+        total_fu   = len(lista_fu)
+        comprou_fu = sum(1 for r in lista_fu if data["followup"].get(str(r["id"]),{}).get("status","") == "✅ Comprou")
+        contato_fu = sum(1 for r in lista_fu if data["followup"].get(str(r["id"]),{}).get("status","⬜ Pendente") != "⬜ Pendente")
+        pf1, pf2, pf3 = st.columns(3)
+        pf1.metric("Na janela 30 dias", total_fu)
+        pf2.metric("Contatados", contato_fu)
+        pf3.metric("✅ Compraram", comprou_fu)
 
 
